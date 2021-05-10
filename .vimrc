@@ -13,7 +13,8 @@ nnoremap l+ : normal! yypd$i<Tab><Tab>std::cout << "++++++++++++++++++++++++++++
 nnoremap l$ : normal! yypd$i<Tab><Tab>std::cout << "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$" << std::endl;<Esc><cr>
 nnoremap l^ : normal! yypd$i<Tab><Tab>std::cout << "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^" << std::endl;<Esc><cr>
 nnoremap l% : normal! yypd$i<Tab><Tab>std::cout << "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << std::endl;<Esc><cr>
-nnoremap f% : normal! yypd$i<Tab><Tab>for(unsigned int i = 0 ; i < 10 ; i++){}<Esc><cr>
+nnoremap f% : normal! yypd$i<Tab><Tab>for(unsigned int i = 0 ; i < 10 ; i++){}<Esc>==<cr>
+nnoremap f^ : call Get_C_ForLoop()<cr>
 nnoremap com : normal! `ai/*<Esc>`bi*/<cr>
 nnoremap ucom : normal! `a<Del><Del>`b<Del><Del><cr>
 inoremap jh <Esc>
@@ -34,6 +35,13 @@ nnoremap /  <Esc>^i//<Esc>
 vnoremap cc <Esc>`>^xx<Esc>`<^xx<Esc>
 vnoremap ; :call Get_visual_selection()<cr>
 
+function! Get_C_ForLoop()
+  "A function to automatically generated the a for loop using provided inputs
+  let variable = input('Loop variable : ')
+  let upperlimit = input('upper limit : ')
+  execute "normal! yypd$i\<Tab>\<Tab>for(unsigned int ".variable." = 0 ; ".variable." < ".upperlimit." ; ".variable."++){}\<Esc>=="
+
+endfunction
 
 function! Get_visual_selection()
   " Why is this not a built-in Vim script function?!
