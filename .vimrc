@@ -15,6 +15,8 @@ nnoremap l^ : normal! yypd$i<Tab><Tab>std::cout << "^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 nnoremap l% : normal! yypd$i<Tab><Tab>std::cout << "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << std::endl;<Esc><cr>
 nnoremap f% : normal! yypd$i<Tab><Tab>for(unsigned int i = 0 ; i < 10 ; i++){}<Esc>==<cr>
 nnoremap f^ : call Get_C_ForLoop()<cr>
+nnoremap h^ : call PutHeader()<cr> 
+nnoremap t^ : call PutTestFileHeader()<cr> 
 nnoremap com : normal! `ai/*<Esc>`bi*/<cr>
 nnoremap ucom : normal! `a<Del><Del>`b<Del><Del><cr>
 inoremap jh <Esc>
@@ -34,6 +36,51 @@ nnoremap bc <Esc>^i/*<Esc>$i*/<Esc>
 nnoremap /  <Esc>^i//<Esc>
 vnoremap cc <Esc>`>^xx<Esc>`<^xx<Esc>
 vnoremap ; :call Get_visual_selection()<cr>
+
+function! PutHeader()
+  "A function to put header in the file
+  let filename = expand('%:t')
+  let dt = system('date +%F')
+  let usr = $USER
+  let ext = expand('%:e')
+  if filereadable(filename)
+	 
+  else
+  	  call PutFileHeader()
+	  if ext=='h'
+		  call PutHeaderFileHeader()
+	  else
+		  call PutTestFileHeader()
+	  endif
+  endif 
+endfunction
+
+function! PutHeaderFileHeader()
+  "A function to put header in the file
+  let filename = expand('%:t')
+  echom "Header file"
+  execute "normal! i#ifndef ".filename."\<Newline>#define ".filename."\<Newline>\<Newline>#endif"
+endfunction
+
+function! PutFileHeader()
+  "A function to put header in the file
+  let filename = expand('%:t')
+  let dt = system('date +%F')
+  let usr = $USER
+  execute "normal! i/*\<Newline>**\<Tab>Filename : ".filename."\<Newline>**\<Tab>".dt."**\<Tab>username : ".usr."\<Newline>*/\<Newline>\<Esc>"
+
+endfunction
+
+function! PutTestFileHeader()
+  "A function to put header in the file
+  let filename = expand('%:t')
+  let dt = system('date +%F')
+  let usr = $USER
+  execute "normal! i#include\<iostream\>\<Newline>\<Esc>"
+  execute "normal! iint main(int argc, char *argv[]){\<Newline>}"
+  
+endfunction
+
 
 function! Get_C_ForLoop()
   "A function to automatically generated the a for loop using provided inputs
